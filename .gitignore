@@ -7,8 +7,6 @@
 /coverage
 
 # Next.js build output
-/.next/
-/.next
 /out/
 /build
 
