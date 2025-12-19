@@ -6,7 +6,21 @@ export default function Page() {
     displayName: "Koala",
     status: "Do you wonder where she is this afternoon?",
     about:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+    likes: ["Late-night Discord calls", "Minimalist UI", "Lo-fi playlists"],
+    dislikes: ["Spam pings", "Crowded servers", "Clunky interfaces"],
+    favoriteGame: "Minecraft",
+    games: ["Minecraft", "Valorant", "Dead by Daylight", "Roblox"],
+    connectedAccounts: {
+      valorantId: "Koala#Moon",
+      robloxProfile: "https://www.roblox.com/users/4458264566/profile",
+      minecraftName: "Ko4lax",
+      epicId: "Ko4lax.",
+      steamProfile: "https://steamcommunity.com/id/Dreamvalian/",
+      spotifyProfile: "https://open.spotify.com/user/yrov2tazzzb149l3yn72dplhv",
+      spotifyPlaylist:
+        "https://open.spotify.com/playlist/5ECJnDi2T1ZjzCENB6mjaq?si=07201cd86c4f4b88",
+    },
     links: [
       {
         label: "Discord",
@@ -49,8 +63,8 @@ export default function Page() {
   };
 
   return (
-    <main className='min-h-screen flex items-center justify-center px-3 py-2 sm:px-4 sm:py-3'>
-      <div className='w-full max-w-2xl'>
+    <main className='min-h-screen flex items-center justify-center px-3 py-2 sm:px-8 sm:py-6'>
+      <div className='w-full max-w-4xl'>
         <ProfilePager profile={profile} />
       </div>
     </main>
