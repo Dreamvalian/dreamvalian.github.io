@@ -4,13 +4,23 @@ export default function Page() {
   const profile = {
     handle: "ko4lax",
     displayName: "Koala",
-    status: "Do you wonder where she is this afternoon?",
+    status: "In Research",
+    avatarSrc: "/profile.png",
     about:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-    likes: ["Late-night Discord calls", "Minimalist UI", "Lo-fi playlists"],
-    dislikes: ["Spam pings", "Crowded servers", "Clunky interfaces"],
+      "Heh, do you like to spin things around and make woosh woosh sounds?",
+    bio: "I craft digital experiences where simplicity meets elegance. As a UI/UX Designer, I obsess over whitespace, typographic rhythm, and subtle interactions to create interfaces that feel effortless. My work is grounded in the belief that the best design is often the one you notice least—clean, focused, and intentionally quiet.",
+    likes: ["Creeper explosions", "Gengar", "Curating playlists"],
+    dislikes: ["Drained social battery", "Forced small talk", "Crowded spaces"],
     favoriteGame: "Minecraft",
-    games: ["Minecraft", "Valorant", "Dead by Daylight", "Roblox"],
+    games: [
+      "Minecraft",
+      "Valorant",
+      "Dead by Daylight",
+      "Roblox",
+      "Dota 2",
+      "Fishing Planet",
+      "Stardew Valley",
+    ],
     connectedAccounts: {
       valorantId: "Koala#Moon",
       robloxProfile: "https://www.roblox.com/users/4458264566/profile",
@@ -36,11 +46,6 @@ export default function Page() {
         label: "GitHub",
         value: "dreamvalian",
         href: "https://github.com/dreamvalian",
-      },
-      {
-        label: "Personal",
-        value: "koala.is-a.dev",
-        href: "https://koala.is-a-dev",
       },
     ],
     highlights: [

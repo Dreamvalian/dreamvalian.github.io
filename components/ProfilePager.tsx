@@ -35,6 +35,7 @@ type Profile = {
   displayName: string;
   status: string;
   about: string;
+  avatarSrc?: string;
   bio?: string;
   likes?: string[];
   dislikes?: string[];
@@ -75,12 +76,42 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
     Valorant: "/games/valorant.svg",
     "Dead by Daylight": "/games/dbd.png",
     Roblox: "/games/roblox.png",
+    "Dota 2": "/games/dota2.png",
+    "Fishing Planet": "/games/fishingplanet.jpg",
+    "Stardew Valley": "/games/stardewvalley.png",
   };
 
   const accounts = profile.connectedAccounts;
 
   return (
-    <div className='w-full'>
+    <div className='w-full relative'>
+      {/* Decorative peeking avatar for Highlights page */}
+      {pageIndex === 2 && (
+        <>
+          <div className='absolute -left-20 xl:-left-32 top-1/2 -translate-y-1/2 w-48 h-48 xl:w-64 xl:h-64 -z-10 hidden lg:block transition-all duration-500 animate-in fade-in slide-in-from-right-4'>
+            <Image
+              src='/custom-ava-2.png'
+              alt=''
+              width={256}
+              height={256}
+              className='object-contain drop-shadow-xl transform -rotate-12 opacity-90'
+              priority
+            />
+          </div>
+
+          <div className='absolute -top-10 right-8 sm:right-16 w-24 h-24 sm:w-32 sm:h-32 -z-10 hidden sm:block transition-all duration-500 animate-in fade-in slide-in-from-bottom-4'>
+            <Image
+              src='/custom-ava-4.png'
+              alt=''
+              width={128}
+              height={128}
+              className='object-contain drop-shadow-xl transform rotate-3 opacity-90'
+              priority
+            />
+          </div>
+        </>
+      )}
+
       <div className='rounded-soft border border-gray-200/80 bg-surface/80 backdrop-blur-sm px-4 py-4 sm:px-7 sm:py-5 shadow-[0_18px_70px_rgba(15,23,42,0.08)]'>
         <div className='flex flex-col gap-3 sm:gap-4'>
           <div className='min-h-[210px] sm:min-h-[200px] flex flex-col gap-3 sm:gap-4'>
@@ -90,6 +121,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                   handle={profile.handle}
                   displayName={profile.displayName}
                   status={profile.status}
+                  avatarSrc={profile.avatarSrc}
                 />
 
                 <div className='h-px bg-gradient-to-r from-transparent via-gray-200/80 to-transparent' />
@@ -112,13 +144,16 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                         music that keeps you awake — by koala.
                       </p>
                       {accounts?.spotifyPlaylist && (
-                        <a
-                          href={accounts.spotifyPlaylist}
-                          target='_blank'
-                          rel='noreferrer'
-                          className='mt-1 inline-flex text-[11px] sm:text-xs text-accent hover:underline underline-offset-2'>
-                          Open in Spotify
-                        </a>
+                        <div className='mt-1 flex items-center gap-2'>
+                          <a
+                            href={accounts.spotifyPlaylist}
+                            target='_blank'
+                            rel='noreferrer'
+                            className='inline-flex items-center gap-1 rounded-full bg-[#1db954] text-white px-2.5 py-1 text-[11px] sm:text-xs font-medium shadow-sm hover:brightness-110 transition'>
+                            <span>▶</span>
+                            <span>Play on Spotify</span>
+                          </a>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -135,176 +170,192 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                 </h2>
                 <p className='text-gray-700'>{profile.bio ?? profile.about}</p>
 
-                <div className='grid gap-3 sm:gap-4 sm:grid-cols-2'>
-                  <div className='space-y-1'>
-                    <h3 className='text-[11px] sm:text-xs uppercase tracking-[0.18em] text-subtle'>
-                      What I Like
-                    </h3>
-                    <ul className='text-xs sm:text-sm text-gray-700 list-disc list-inside space-y-0.5'>
-                      {(
-                        profile.likes ?? [
-                          "Quiet nights online",
-                          "Cozy servers",
-                          "Small, thoughtful UI details",
-                        ]
-                      ).map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className='grid gap-3 sm:gap-4 md:grid-cols-[1fr_300px] lg:grid-cols-[1fr_350px]'>
+                  <div className='space-y-4 sm:space-y-5'>
+                    <div className='grid gap-3 sm:gap-4 sm:grid-cols-2'>
+                      <div className='space-y-1'>
+                        <h3 className='text-[11px] sm:text-xs uppercase tracking-[0.18em] text-subtle'>
+                          What I Like
+                        </h3>
+                        <ul className='text-xs sm:text-sm text-gray-700 list-disc list-inside space-y-0.5'>
+                          {(
+                            profile.likes ?? [
+                              "Quiet nights online",
+                              "Cozy servers",
+                              "Small, thoughtful UI details",
+                            ]
+                          ).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
 
-                  <div className='space-y-1'>
-                    <h3 className='text-[11px] sm:text-xs uppercase tracking-[0.18em] text-subtle'>
-                      Dislikes
-                    </h3>
-                    <ul className='text-xs sm:text-sm text-gray-700 list-disc list-inside space-y-0.5'>
-                      {(
-                        profile.dislikes ?? [
-                          "Loud pings",
-                          "Cluttered layouts",
-                          "Unnecessary drama",
-                        ]
-                      ).map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className='space-y-3 sm:space-y-4 pt-1 sm:pt-2'>
-                  <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center'>
-                    <div className='h-10 w-10 sm:h-11 sm:w-11 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center'>
-                      {GAME_IMAGES[favoriteGame] ? (
-                        <Image
-                          src={GAME_IMAGES[favoriteGame]}
-                          alt={favoriteGame}
-                          width={44}
-                          height={44}
-                          className='h-full w-full object-cover'
-                        />
-                      ) : (
-                        <span className='text-[10px] sm:text-xs font-semibold text-gray-700'>
-                          {favoriteGame?.[0] ?? "?"}
-                        </span>
-                      )}
-                    </div>
-                    <div className='flex-1 min-w-0'>
-                      <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle mb-0.5'>
-                        Favorite game
-                      </p>
-                      <p className='text-sm sm:text-base font-medium text-gray-900 truncate'>
-                        {favoriteGame}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 space-y-2.5'>
-                    <div className='flex items-center justify-between gap-2'>
-                      <div>
-                        <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle'>
-                          Other Games
-                        </p>
+                      <div className='space-y-1'>
+                        <h3 className='text-[11px] sm:text-xs uppercase tracking-[0.18em] text-subtle'>
+                          Dislikes
+                        </h3>
+                        <ul className='text-xs sm:text-sm text-gray-700 list-disc list-inside space-y-0.5'>
+                          {(
+                            profile.dislikes ?? [
+                              "Loud pings",
+                              "Cluttered layouts",
+                              "Unnecessary drama",
+                            ]
+                          ).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
 
-                    <div className='flex flex-wrap gap-1.5 sm:gap-2'>
-                      {(otherGames.length ? otherGames : gamesList).map(
-                        (game) => (
-                          <span
-                            key={game}
-                            className='inline-flex items-center gap-1.5 rounded-full bg-surface/90 border border-gray-200 px-2.5 py-1 text-[11px] sm:text-xs text-gray-800 shadow-xs'>
-                            {GAME_IMAGES[game] && (
-                              <Image
-                                src={GAME_IMAGES[game]}
-                                alt={game}
-                                width={18}
-                                height={18}
-                                className='h-4 w-4 rounded-[4px] object-cover'
-                              />
+                    <div className='space-y-3 sm:space-y-4 pt-1 sm:pt-2'>
+                      <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center'>
+                        <div className='h-10 w-10 sm:h-11 sm:w-11 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center'>
+                          {GAME_IMAGES[favoriteGame] ? (
+                            <Image
+                              src={GAME_IMAGES[favoriteGame]}
+                              alt={favoriteGame}
+                              width={44}
+                              height={44}
+                              className='h-full w-full object-cover'
+                            />
+                          ) : (
+                            <span className='text-[10px] sm:text-xs font-semibold text-gray-700'>
+                              {favoriteGame?.[0] ?? "?"}
+                            </span>
+                          )}
+                        </div>
+                        <div className='flex-1 min-w-0'>
+                          <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle mb-0.5'>
+                            Favorite game
+                          </p>
+                          <p className='text-sm sm:text-base font-medium text-gray-900 truncate'>
+                            {favoriteGame}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 space-y-2.5'>
+                        <div className='flex items-center justify-between gap-2'>
+                          <div>
+                            <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle'>
+                              Other Games
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className='flex flex-wrap gap-1.5 sm:gap-2'>
+                          {(otherGames.length ? otherGames : gamesList).map(
+                            (game) => (
+                              <span
+                                key={game}
+                                className='inline-flex items-center gap-1.5 rounded-full bg-surface/90 border border-gray-200 px-2.5 py-1 text-[11px] sm:text-xs text-gray-800 shadow-xs'>
+                                {GAME_IMAGES[game] && (
+                                  <Image
+                                    src={GAME_IMAGES[game]}
+                                    alt={game}
+                                    width={18}
+                                    height={18}
+                                    className='h-4 w-4 rounded-[4px] object-cover'
+                                  />
+                                )}
+                                <span>{game}</span>
+                              </span>
+                            )
+                          )}
+                        </div>
+                      </div>
+
+                      {accounts && (
+                        <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 space-y-2.5'>
+                          <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle'>
+                            Connected accounts
+                          </p>
+
+                          <dl className='space-y-1.5 text-xs sm:text-sm text-gray-700'>
+                            {accounts.valorantId && (
+                              <div className='flex items-center justify-between gap-3'>
+                                <dt className='text-subtle'>Valorant</dt>
+                                <dd className='font-medium truncate'>
+                                  {accounts.valorantId}
+                                </dd>
+                              </div>
                             )}
-                            <span>{game}</span>
-                          </span>
-                        )
+                            {accounts.robloxProfile && (
+                              <div className='flex items-center justify-between gap-3'>
+                                <dt className='text-subtle'>Roblox</dt>
+                                <dd className='font-medium truncate'>
+                                  <a
+                                    href={accounts.robloxProfile}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                    className='hover:text-accent underline-offset-2 hover:underline'>
+                                    @Dreamvalian
+                                  </a>
+                                </dd>
+                              </div>
+                            )}
+                            {accounts.minecraftName && (
+                              <div className='flex items-center justify-between gap-3'>
+                                <dt className='text-subtle'>Minecraft</dt>
+                                <dd className='font-medium truncate'>
+                                  {accounts.minecraftName}
+                                </dd>
+                              </div>
+                            )}
+                            {accounts.epicId && (
+                              <div className='flex items-center justify-between gap-3'>
+                                <dt className='text-subtle'>Epic Games</dt>
+                                <dd className='font-medium truncate'>
+                                  {accounts.epicId}
+                                </dd>
+                              </div>
+                            )}
+                            {accounts.steamProfile && (
+                              <div className='flex items-center justify-between gap-3'>
+                                <dt className='text-subtle'>Steam</dt>
+                                <dd className='font-medium truncate'>
+                                  <a
+                                    href={accounts.steamProfile}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                    className='hover:text-accent underline-offset-2 hover:underline'>
+                                    koala
+                                  </a>
+                                </dd>
+                              </div>
+                            )}
+                            {accounts.spotifyProfile && (
+                              <div className='flex items-center justify-between gap-3'>
+                                <dt className='text-subtle'>Spotify</dt>
+                                <dd className='font-medium truncate'>
+                                  <a
+                                    href={accounts.spotifyProfile}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                    className='hover:text-accent underline-offset-2 hover:underline'>
+                                    koala.
+                                  </a>
+                                </dd>
+                              </div>
+                            )}
+                          </dl>
+                        </div>
                       )}
                     </div>
                   </div>
 
-                  {accounts && (
-                    <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 space-y-2.5'>
-                      <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle'>
-                        Connected accounts
-                      </p>
-
-                      <dl className='space-y-1.5 text-xs sm:text-sm text-gray-700'>
-                        {accounts.valorantId && (
-                          <div className='flex items-center justify-between gap-3'>
-                            <dt className='text-subtle'>Valorant</dt>
-                            <dd className='font-medium truncate'>
-                              {accounts.valorantId}
-                            </dd>
-                          </div>
-                        )}
-                        {accounts.robloxProfile && (
-                          <div className='flex items-center justify-between gap-3'>
-                            <dt className='text-subtle'>Roblox</dt>
-                            <dd className='font-medium truncate'>
-                              <a
-                                href={accounts.robloxProfile}
-                                target='_blank'
-                                rel='noreferrer'
-                                className='hover:text-accent underline-offset-2 hover:underline'>
-                                @Dreamvalian
-                              </a>
-                            </dd>
-                          </div>
-                        )}
-                        {accounts.minecraftName && (
-                          <div className='flex items-center justify-between gap-3'>
-                            <dt className='text-subtle'>Minecraft</dt>
-                            <dd className='font-medium truncate'>
-                              {accounts.minecraftName}
-                            </dd>
-                          </div>
-                        )}
-                        {accounts.epicId && (
-                          <div className='flex items-center justify-between gap-3'>
-                            <dt className='text-subtle'>Epic Games</dt>
-                            <dd className='font-medium truncate'>
-                              {accounts.epicId}
-                            </dd>
-                          </div>
-                        )}
-                        {accounts.steamProfile && (
-                          <div className='flex items-center justify-between gap-3'>
-                            <dt className='text-subtle'>Steam</dt>
-                            <dd className='font-medium truncate'>
-                              <a
-                                href={accounts.steamProfile}
-                                target='_blank'
-                                rel='noreferrer'
-                                className='hover:text-accent underline-offset-2 hover:underline'>
-                                koala
-                              </a>
-                            </dd>
-                          </div>
-                        )}
-                        {accounts.spotifyProfile && (
-                          <div className='flex items-center justify-between gap-3'>
-                            <dt className='text-subtle'>Spotify</dt>
-                            <dd className='font-medium truncate'>
-                              <a
-                                href={accounts.spotifyProfile}
-                                target='_blank'
-                                rel='noreferrer'
-                                className='hover:text-accent underline-offset-2 hover:underline'>
-                                koala.
-                              </a>
-                            </dd>
-                          </div>
-                        )}
-                      </dl>
-                    </div>
-                  )}
+                  <div className='md:row-span-1'>
+                    <div
+                      className='rounded-soft border border-gray-200/80 overflow-hidden w-full h-full min-h-[400px] sm:min-h-[500px]'
+                      style={{
+                        backgroundImage: `url(/custom-ava.png)`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    />
+                  </div>
                 </div>
               </section>
             )}
@@ -330,15 +381,17 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
             <div className='flex items-center gap-2'>
               <button
                 type='button'
-                onClick={() => setPageIndex((prev) => Math.max(0, prev - 1))}
-                disabled={pageIndex === 0}
+                onClick={() =>
+                  setPageIndex((prev) => (prev === 0 ? 2 : prev - 1))
+                }
                 className='inline-flex items-center gap-1 rounded-full border border-gray-200/80 bg-white/70 px-3 py-1 text-[11px] sm:text-xs text-gray-700 hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-gray-200/80 disabled:hover:text-gray-700 transition-colors'>
                 Back
               </button>
               <button
                 type='button'
-                onClick={() => setPageIndex((prev) => Math.min(2, prev + 1))}
-                disabled={pageIndex === 2}
+                onClick={() =>
+                  setPageIndex((prev) => (prev === 2 ? 0 : prev + 1))
+                }
                 className='inline-flex items-center gap-1 rounded-full border border-gray-200/80 bg-white/70 px-3 py-1 text-[11px] sm:text-xs text-gray-700 hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-gray-200/80 disabled:hover:text-gray-700 transition-colors'>
                 Next
               </button>
