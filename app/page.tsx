@@ -9,8 +9,17 @@ export default function Page() {
     return () => clearTimeout(t);
   }, []);
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_USE_LEGACY_INDEX === "1") {
-      const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const forceLegacy = process.env.NEXT_PUBLIC_USE_LEGACY_INDEX === "1";
+    const supportsModern =
+      typeof window !== "undefined" &&
+      "fetch" in window &&
+      "Promise" in window &&
+      "IntersectionObserver" in window &&
+      typeof CSS !== "undefined" &&
+      !!CSS.supports &&
+      CSS.supports("color", "var(--x)");
+    if (forceLegacy || !supportsModern) {
       const target = `${base}/legacy-index.html`;
       window.location.assign(target);
     }

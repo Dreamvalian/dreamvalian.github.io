@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "node -e \"require('fs').copyFileSync('public/legacy-index.html','out/index.html')\""
   },
   "dependencies": {
     "next": "^14.0.0",
