@@ -12,7 +12,7 @@ export default function Page() {
     handle: "ko4lax",
     displayName: "Koala",
     status: "In Research",
-    avatarSrc: "/profile.png",
+    avatarSrc: "./profile.png",
     about:
       "Heh, do you like to spin things around and make woosh woosh sounds?",
     bio: "I craft digital experiences where simplicity meets elegance. As a UI/UX Designer, I obsess over whitespace, typographic rhythm, and subtle interactions to create interfaces that feel effortless. My work is grounded in the belief that the best design is often the one you notice least—clean, focused, and intentionally quiet.",

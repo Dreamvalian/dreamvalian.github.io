@@ -88,7 +88,7 @@ export function CustomCursor() {
           backgroundColor: "transparent",
         }}>
         <Image
-          src={"/games/minecraft.png"}
+          src={"./games/minecraft.png"}
           alt=''
           width={24}
           height={24}

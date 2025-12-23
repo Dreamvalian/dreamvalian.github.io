@@ -28,7 +28,7 @@ export function HighlightsSection({ items }: HighlightsSectionProps) {
             {index === 0 && (
               <div className='absolute -right-6 sm:-right-8 top-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 -z-10 pointer-events-none transform rotate-12 opacity-0 sm:opacity-100 transition-opacity duration-500'>
                 <Image
-                  src='/custom-ava-2.png'
+                  src='./custom-ava-2.png'
                   alt=''
                   width={96}
                   height={96}
