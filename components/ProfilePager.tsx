@@ -350,7 +350,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                     <div
                       className='rounded-soft border border-gray-200/80 overflow-hidden w-full h-full min-h-[400px] sm:min-h-[500px]'
                       style={{
-                        backgroundImage: `url(/custom-ava.png)`,
+                        backgroundImage: `url(./custom-ava.png)`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",

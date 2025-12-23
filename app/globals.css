@@ -113,7 +113,7 @@ html {
 
 /* Custom cursor using assets in /public/cursor */
 body {
-  cursor: url("/cursor/01 Normal Select.ani"), default;
+  cursor: url("./cursor/01 Normal Select.ani"), default;
 }
 
 a,

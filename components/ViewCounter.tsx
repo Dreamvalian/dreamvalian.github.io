@@ -21,8 +21,10 @@ export function ViewCounter({
 }) {
   const [views, setViews] = useState<number | null>(null);
   const pathname = usePathname();
+  const isStatic = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
   useEffect(() => {
+    if (isStatic) return;
     const track = async () => {
       try {
         const res = await fetch(
@@ -39,9 +41,9 @@ export function ViewCounter({
       }
     };
     track();
-  }, [pathname]);
+  }, [pathname, isStatic]);
 
-  if (views === null) return null;
+  if (isStatic || views === null) return null;
 
   return (
     <span
