@@ -73,13 +73,13 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
   const otherGames = gamesList.filter((g) => g !== favoriteGame);
 
   const GAME_IMAGES: Record<string, string> = {
-    Minecraft: "./games/minecraft.png",
-    Valorant: "./games/valorant.svg",
-    "Dead by Daylight": "./games/dbd.png",
-    Roblox: "./games/roblox.png",
-    "Dota 2": "./games/dota2.png",
-    "Fishing Planet": "./games/fishingplanet.jpg",
-    "Stardew Valley": "./games/stardewvalley.png",
+    Minecraft: "/games/minecraft.png",
+    Valorant: "/games/valorant.svg",
+    "Dead by Daylight": "/games/dbd.png",
+    Roblox: "/games/roblox.png",
+    "Dota 2": "/games/dota2.png",
+    "Fishing Planet": "/games/fishingplanet.jpg",
+    "Stardew Valley": "/games/stardewvalley.png",
   };
 
   const accounts = profile.connectedAccounts;
@@ -91,7 +91,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
         <>
           <div className='absolute -left-20 xl:-left-32 top-1/2 -translate-y-1/2 w-48 h-48 xl:w-64 xl:h-64 -z-10 hidden lg:block transition-all duration-500 animate-in fade-in slide-in-from-right-4'>
             <Image
-              src='./custom-ava-2.png'
+              src='/custom-ava-2.png'
               alt=''
               width={256}
               height={256}
@@ -102,7 +102,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
 
           <div className='absolute -top-10 right-8 sm:right-16 w-24 h-24 sm:w-32 sm:h-32 -z-10 hidden sm:block transition-all duration-500 animate-in fade-in slide-in-from-bottom-4'>
             <Image
-              src='./custom-ava-4.png'
+              src='/custom-ava-4.png'
               alt=''
               width={128}
               height={128}
@@ -350,7 +350,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                     <div
                       className='rounded-soft border border-gray-200/80 overflow-hidden w-full h-full min-h-[400px] sm:min-h-[500px]'
                       style={{
-                        backgroundImage: `url(./custom-ava.png)`,
+                        backgroundImage: `url(/custom-ava.png)`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
