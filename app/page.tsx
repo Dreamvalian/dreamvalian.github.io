@@ -1,10 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  return (
-    <html>
-      <head>
-        <meta httpEquiv='refresh' content='0; url=/profile/' />
-      </head>
-      <body />
-    </html>
-  );
+  redirect("/profile/");
 }
