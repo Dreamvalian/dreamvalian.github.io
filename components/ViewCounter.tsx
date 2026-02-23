@@ -4,12 +4,22 @@ import { useEffect, useState } from "react";
 
 type CounterResponse = { count: number };
 
+type CountApiResponse = {
+  value: number;
+};
+
+const DEFAULT_COUNTER_NAMESPACE = "dreamvalian-github-io";
+
 function fmt(n: number, compact?: boolean) {
   if (compact && n >= 1000) {
     const v = n / 1000;
     return `${v.toFixed(v < 10 ? 1 : 0)}K`;
   }
   return n.toLocaleString();
+}
+
+function normalizePath(pathname: string) {
+  return pathname.replace(/^\/+|\/+$/g, "") || "home";
 }
 
 export function ViewCounter({
@@ -24,15 +34,24 @@ export function ViewCounter({
   const isStatic = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
 
   useEffect(() => {
-    if (isStatic) return;
     const track = async () => {
       try {
-        const res = await fetch(
-          `/api/views?path=${encodeURIComponent(pathname)}`,
-          {
-            method: "POST",
-          }
-        );
+        if (isStatic) {
+          const namespace =
+            process.env.NEXT_PUBLIC_COUNTER_NAMESPACE ?? DEFAULT_COUNTER_NAMESPACE;
+          const key = normalizePath(pathname);
+          const res = await fetch(
+            `https://api.countapi.xyz/hit/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`
+          );
+          if (!res.ok) return;
+          const data = (await res.json()) as CountApiResponse;
+          setViews(data.value);
+          return;
+        }
+
+        const res = await fetch(`/api/views?path=${encodeURIComponent(pathname)}`, {
+          method: "POST",
+        });
         if (!res.ok) return;
         const data = (await res.json()) as CounterResponse;
         setViews(data.count);
@@ -43,7 +62,7 @@ export function ViewCounter({
     track();
   }, [pathname, isStatic]);
 
-  if (isStatic || views === null) return null;
+  if (views === null) return null;
 
   return (
     <span
