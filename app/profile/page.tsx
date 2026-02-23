@@ -5,6 +5,15 @@ import { useEffect, useState } from "react";
 export default function ProfilePage() {
   const [showSplash, setShowSplash] = useState(true);
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      setShowSplash(false);
+      return;
+    }
+
     const t = setTimeout(() => setShowSplash(false), 1100);
     return () => clearTimeout(t);
   }, []);

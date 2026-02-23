@@ -63,6 +63,9 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
       ? "Page 2 of 3 · Biography"
       : "Page 3 of 3 · Highlights";
 
+  const goBack = () => setPageIndex((prev) => (prev === 0 ? 2 : prev - 1));
+  const goNext = () => setPageIndex((prev) => (prev === 2 ? 0 : prev + 1));
+
   const gamesList = profile.games ?? [
     "Minecraft",
     "Valorant",
@@ -85,7 +88,18 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
   const accounts = profile.connectedAccounts;
 
   return (
-    <div className='w-full relative'>
+    <div
+      className='w-full relative'
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          goBack();
+        }
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          goNext();
+        }
+      }}>
       {/* Decorative peeking avatar for Highlights page */}
       {isHighlights && (
         <>
@@ -115,7 +129,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
 
       <div className='rounded-soft border border-gray-200/80 bg-surface/80 backdrop-blur-sm px-4 py-4 sm:px-7 sm:py-5 shadow-[0_18px_70px_rgba(15,23,42,0.08)]'>
         <div className='flex flex-col gap-3 sm:gap-4'>
-          <div className='min-h-[210px] sm:min-h-[200px] flex flex-col gap-3 sm:gap-4'>
+          <div id='profile-page-content' className='min-h-[210px] sm:min-h-[200px] flex flex-col gap-3 sm:gap-4'>
             {isOverview && (
               <>
                 <IntroSection
@@ -134,7 +148,9 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                     Favorite playlist
                   </h2>
                   <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 flex items-center gap-3 sm:gap-4'>
-                    <div className='h-10 w-10 sm:h-11 sm:w-11 rounded-md bg-[#1db954] flex items-center justify-center text-[10px] sm:text-xs font-semibold text-white'>
+                    <div
+                      className='h-10 w-10 sm:h-11 sm:w-11 rounded-md bg-[#1db954] flex items-center justify-center text-[10px] sm:text-xs font-semibold text-white'
+                      aria-hidden='true'>
                       ♫
                     </div>
                     <div className='min-w-0 flex-1'>
@@ -150,8 +166,9 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                             href={accounts.spotifyPlaylist}
                             target='_blank'
                             rel='noreferrer'
+                            aria-label='Play playlist on Spotify (opens in a new tab)'
                             className='inline-flex items-center gap-1 rounded-full bg-[#1db954] text-white px-2.5 py-1 text-[11px] sm:text-xs font-medium shadow-sm hover:brightness-110 transition'>
-                            <span>▶</span>
+                            <span aria-hidden='true'>▶</span>
                             <span>Play on Spotify</span>
                           </a>
                         </div>
@@ -260,20 +277,23 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                                     className='h-4 w-4 rounded-[4px] object-cover'
                                   />
                                 )}
-                                <span>{game}</span>
+                                <span className='leading-none'>{game}</span>
                               </span>
                             )
                           )}
                         </div>
                       </div>
+                    </div>
+                  </div>
 
-                      {accounts && (
-                        <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3 space-y-2.5'>
-                          <p className='text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-subtle'>
-                            Connected accounts
-                          </p>
-
-                          <dl className='space-y-1.5 text-xs sm:text-sm text-gray-700'>
+                  <div className='space-y-3 sm:space-y-4'>
+                    <div className='rounded-soft border border-gray-200/80 bg-white/80 px-3 py-2.5 sm:px-4 sm:py-3'>
+                      <h3 className='text-[11px] sm:text-xs uppercase tracking-[0.18em] text-subtle mb-2'>
+                        Connected accounts
+                      </h3>
+                      {accounts ? (
+                        <div className='space-y-1.5 text-xs sm:text-sm text-gray-700'>
+                          <dl className='space-y-1.5'>
                             {accounts.valorantId && (
                               <div className='flex items-center justify-between gap-3'>
                                 <dt className='text-subtle'>Valorant</dt>
@@ -290,6 +310,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                                     href={accounts.robloxProfile}
                                     target='_blank'
                                     rel='noreferrer'
+                                    aria-label='Open Roblox profile (opens in a new tab)'
                                     className='hover:text-accent underline-offset-2 hover:underline'>
                                     @Dreamvalian
                                   </a>
@@ -320,6 +341,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                                     href={accounts.steamProfile}
                                     target='_blank'
                                     rel='noreferrer'
+                                    aria-label='Open Steam profile (opens in a new tab)'
                                     className='hover:text-accent underline-offset-2 hover:underline'>
                                     koala
                                   </a>
@@ -334,6 +356,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                                     href={accounts.spotifyProfile}
                                     target='_blank'
                                     rel='noreferrer'
+                                    aria-label='Open Spotify profile (opens in a new tab)'
                                     className='hover:text-accent underline-offset-2 hover:underline'>
                                     koala.
                                   </a>
@@ -342,13 +365,14 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
                             )}
                           </dl>
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
 
                   <div className='md:row-span-1'>
                     <div
                       className='rounded-soft border border-gray-200/80 overflow-hidden w-full h-full min-h-[400px] sm:min-h-[500px]'
+                      aria-hidden='true'
                       style={{
                         backgroundImage: `url(/custom-ava.png)`,
                         backgroundSize: "cover",
@@ -366,7 +390,7 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
             <footer className='mt-auto pt-2 text-[11px] sm:text-xs text-subtle flex justify-between gap-3'>
               <span className='flex items-center gap-2'>
                 <span>Last seen online · today</span>
-                <span className='h-1 w-1 rounded-full bg-gray-300' />
+                <span className='h-1 w-1 rounded-full bg-gray-300' aria-hidden='true' />
                 <ViewCounter />
               </span>
               <span className='text-right'>
@@ -375,27 +399,29 @@ export function ProfilePager({ profile }: ProfilePagerProps) {
             </footer>
           </div>
 
-          <div className='flex items-center justify-between pt-1 text-[11px] sm:text-xs text-subtle border-t border-gray-200/70 mt-1'>
-            <span>{pageLabel}</span>
+          <nav
+            className='flex items-center justify-between pt-1 text-[11px] sm:text-xs text-subtle border-t border-gray-200/70 mt-1'
+            aria-label='Profile pages'>
+            <span aria-live='polite'>{pageLabel}</span>
             <div className='flex items-center gap-2'>
               <button
                 type='button'
-                onClick={() =>
-                  setPageIndex((prev) => (prev === 0 ? 2 : prev - 1))
-                }
+                onClick={goBack}
+                aria-controls='profile-page-content'
+                aria-label='Go to previous profile page'
                 className='inline-flex items-center gap-1 rounded-full border border-gray-200/80 bg-white/70 px-3 py-1 text-[11px] sm:text-xs text-gray-700 hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-gray-200/80 disabled:hover:text-gray-700 transition-colors'>
                 Back
               </button>
               <button
                 type='button'
-                onClick={() =>
-                  setPageIndex((prev) => (prev === 2 ? 0 : prev + 1))
-                }
+                onClick={goNext}
+                aria-controls='profile-page-content'
+                aria-label='Go to next profile page'
                 className='inline-flex items-center gap-1 rounded-full border border-gray-200/80 bg-white/70 px-3 py-1 text-[11px] sm:text-xs text-gray-700 hover:border-accent/50 hover:text-accent disabled:opacity-40 disabled:hover:border-gray-200/80 disabled:hover:text-gray-700 transition-colors'>
                 Next
               </button>
             </div>
-          </div>
+          </nav>
         </div>
       </div>
     </div>

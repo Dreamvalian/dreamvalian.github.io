@@ -6,11 +6,32 @@ export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
   const [interactive, setInteractive] = useState(false);
+  const [enabled, setEnabled] = useState(false);
   const target = useRef({ x: 0, y: 0 });
   const ring = useRef({ x: 0, y: 0 });
   const rafId = useRef<number | null>(null);
 
   useEffect(() => {
+    const mediaReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mediaFinePointer = window.matchMedia("(pointer: fine)");
+
+    const syncEnabled = () => {
+      setEnabled(!mediaReduce.matches && mediaFinePointer.matches);
+    };
+
+    syncEnabled();
+    mediaReduce.addEventListener("change", syncEnabled);
+    mediaFinePointer.addEventListener("change", syncEnabled);
+
+    return () => {
+      mediaReduce.removeEventListener("change", syncEnabled);
+      mediaFinePointer.removeEventListener("change", syncEnabled);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+
     const isInteractive = (el: Element | null) => {
       if (!el) return false;
       const selectors =
@@ -38,14 +59,18 @@ export function CustomCursor() {
 
     window.addEventListener("pointermove", onMove, { passive: true });
     rafId.current = requestAnimationFrame(tick);
+
     return () => {
       window.removeEventListener("pointermove", onMove);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <div
+      aria-hidden='true'
       style={{
         position: "fixed",
         inset: 0,
